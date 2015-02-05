@@ -1,83 +1,87 @@
-#### CFPB Open Source Project Template Instructions
+# ECCU Publisher
 
-1. Create a new project.
-2. Copy these files into the new project.
-3. Update the README, replacing the contents below as prescribed.
-4. Add any libraries, assets, or hard dependencies whose source code will be included
-   in the project's repository to the _Exceptions_ section in the [TERMS](TERMS.md).
-  - If no exceptions are needed, remove that section from TERMS.
-5. If working with an existing code base, answer the questions on the [open source checklist](opensource-checklist.md) 
-6. Delete these instructions and everything up to the _Project Title_ from the README.
-7. Write some great software and tell people about it.
+This project provides a command-line tool for publishing "ECCU" files to Akamai. ECCU is one of several mechanisms for programattically interacting with your Akamai cache. Unfortunately, there appears to be no public-facing dcoumentation of the format. You can publish one or several ECCU files at once, or pass in a list of URL paths that will be converted into the appropriate XML. This project is distributed as a Python package.
 
-> Keep the README fresh! It's the first thing people see and will make the initial impression.
-
-----
-
-# Project Title
-
-**Description**:  Put a meaningful, short, plain-language description of what
-this project is trying to accomplish and why it matters. 
-Describe the problem(s) this project solves.
-Describe how this software can improve the lives of its audience.
-
-Other things to include:
-
-  - **Technology stack**: Indicate the technological nature of the software, including primary programming language(s) and whether the software is intended as standalone or as a module in a framework or other ecosystem.
-  - **Status**:  Alpha, Beta, 1.1, etc. It's OK to write a sentence, too. The goal is to let interested people know where this project is at. This is also a good place to link to the [CHANGELOG](CHANGELOG.md).
-  - **Links to production or demo instances**
-  - Describe what sets this apart from related-projects. Linking to another doc or page is OK if this can't be expressed in a sentence or two.
-
-
-**Screenshot**: If the software has visual components, place a screenshot after the description; e.g.,
-
-![](https://raw.githubusercontent.com/cfpb/open-source-project-template/master/screenshot.png)
+Current status: 1.0. This appears to solve the problems it, but we will almost certainly learn new things as we move towards actually implementing this.
 
 
 ## Dependencies
 
-Describe any dependencies that must be installed for this software to work. 
-This includes programming languages, databases or other storage mechanisms, build tools, frameworks, and so forth.
-If specific versions of other software are required, or known not to work, call that out.
+This software has only been tested under Python 2.6 and 2.7, on Mac OS X and Linux. It depends on the following Python libraries:
+
+- [Suds](https://fedorahosted.org/suds/)
+- [lxml](http://lxml.de/)
+- [argparse](http://code.google.com/p/argparse/) (if running under Python 2.6)
 
 ## Installation
 
-Detailed instructions on how to install, configure, and get the project running.
-This should be frequently tested to ensure reliability. Alternatively, a link to
-another page is fine, but it's important that this works.
+With PIP:
 
-## Configuration
+```pip install [path to downloaded zip file or checkout directory]```
 
-If the software is configurable, describe it in detail, either here or in other documentation to which you link.
+Otherwise:
+
+```bash
+cd [path to checkout directory]
+python setup.py install
+```
 
 ## Usage
 
-Show users how to use the software. 
-Be specific. 
-Use appropriate formatting when showing code snippets.
+There are four important environment variables that must be set.
 
+```bash
+export AKAMAI_USER=[akamai account name]
+export AKAMAI_PASSWORD=[akamai_password]
+export AKAMAI_NOTIFY=[email to recieve success or failure notification]
+export AKAMAI_HOST=[domain name you are acting on]
+```
+
+Then, to publish already-crafted ECCU XML files, invoke the tool like this:
+
+```bash
+publish_eccu foo.xml bar.xml
+```
+
+This will combine those files into a single ECCU, before posting.
+
+For the simplest cases, you can pass URL paths instead of XML files:
+
+```bash
+publish_eccu --simple /about-us/contact /blog/
+```
+
+If you want to invalidate the root URL of the domain, pass along the --home argument:
+
+
+```bash
+publish_eccu --simple /about-us/contact /blog/ --home
+```
+
+Finally, if you just want to *see* the combined or generated XML, pass the --noop argument:
+
+```bash
+publish_eccu --simple /about-us/contact /blog/ --home --noop
+successfully published:
+---------
+<eccu><match:recursive-dirs  value="about-us"><match:recursive-dirs value="contact"><revalidate>now</revalidate></match:recursive-dirs></match:recursive-dirs><match:recursive-dirs  value="blog"><revalidate>now</revalidate></match:recursive-dirs><match:this-dir  value="This Directory Only"><match:filename value="No File Specified"><revalidate>now</revalidate></match:filename></match:this-dir></eccu>
+```
 ## How to test the software
 
-If the software includes automated tests, detail how to run those tests.
+First, install [nose](https://nose.readthedocs.org/en/latest/), and then, from the root directory of the project, run the `nosetests` command.
 
 ## Known issues
 
-Document any known significant shortcomings with the software.
+We'll surely discover some soon!
 
 ## Getting help
 
-Instruct users how to get help with this software; this might include links to an issue tracker, wiki, mailing list, etc.
-
-**Example**
 
 If you have questions, concerns, bug reports, etc, please file an issue in this repository's Issue Tracker.
 
 ## Getting involved
 
-This section should detail why people should get involved and describe key areas you are
-currently focusing on; e.g., trying to get feedback on features, fixing certain bugs, building
-important pieces, etc.
-
+If you find this tool useful, (or *almost* useful, pending some particular improvements), get in touch!
 General instructions on _how_ to contribute should be stated with a link to [CONTRIBUTING](CONTRIBUTING.md).
 
 
