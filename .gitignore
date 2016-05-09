@@ -22,6 +22,7 @@ __pycache__/
 #################
 *.egg-info
 .installed.cfg
+.env
 
 # Unit test / coverage reports
 #################
@@ -37,3 +38,7 @@ coverage.xml
 node_modules/
 bower_components/
 .grunt/
+
+# IDE #
+########
+.idea/

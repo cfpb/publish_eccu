@@ -14,6 +14,10 @@ This software has only been tested under Python 2.6 and 2.7, on Mac OS X and Lin
 - [argparse](http://code.google.com/p/argparse/) (if running under Python 2.6)
 
 ## Installation
+Into your Django Project:
+```pip install git+https://github.com/cfpb/publish_eccu.git#egg=publish_eccu```
+
+- Include `publish_eccu` as an INSTALLED_APPS
 
 With PIP:
 
