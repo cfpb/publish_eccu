@@ -1,22 +1,11 @@
 import argparse
 import base64
-import os
-import os.path
 import codecs
 import itertools
 import datetime
 import settings
 from lxml import etree
 from suds.client import Client
-
-parser = argparse.ArgumentParser(prog='publish_eccu',
-                                 description="publish ECCU XML files to Akamai")
-
-parser.add_argument('paths', nargs="+",
-                    help="One or more file names containing ECCU XML (if not using --simple as below)")
-parser.add_argument('--simple', help="Treat arguments as URL paths", action='store_true')
-parser.add_argument('--noop', help="Just output the genrated XML, without publishing", action='store_true')
-parser.add_argument('--home', help="In addition to the other arguments, invalidate the page at /", action='store_true')
 
 # I made this up....
 MATCH_NAMESPACE = "http://akamai.com/eccuapi/match"
@@ -146,6 +135,15 @@ def publish(paths, invalidate_root=False, onlyPrint=False):
 
 
 def main():
+    parser = argparse.ArgumentParser(prog='publish_eccu',
+                                     description="publish ECCU XML files to Akamai")
+    parser.add_argument('paths', nargs="+",
+                        help="One or more file names containing ECCU XML (if not using --simple as below)")
+    parser.add_argument('--simple', help="Treat arguments as URL paths", action='store_true')
+    parser.add_argument('--noop', help="Just output the genrated XML, without publishing", action='store_true')
+    parser.add_argument('--home', help="In addition to the other arguments, invalidate the page at /",
+                        action='store_true')
+
     client = get_akamai_client()
 
     args = parser.parse_args()
