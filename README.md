@@ -72,7 +72,9 @@ successfully published:
 ```
 ## How to test the software
 
-First, install [nose](https://nose.readthedocs.org/en/latest/), and then, from the root directory of the project, run the `nosetests` command.
+Install dependencies
+- `pip install -r requirements/test.txt`
+- from the root directory of the project, run the `nosetests` command.
 
 ## Known issues
 
