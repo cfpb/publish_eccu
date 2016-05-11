@@ -14,6 +14,10 @@ This software has only been tested under Python 2.6 and 2.7, on Mac OS X and Lin
 - [argparse](http://code.google.com/p/argparse/) (if running under Python 2.6)
 
 ## Installation
+Into your Django Project:
+```pip install git+https://github.com/cfpb/publish_eccu.git#egg=publish_eccu```
+
+- Include `publish_eccu` as an INSTALLED_APPS
 
 With PIP:
 
@@ -68,7 +72,9 @@ successfully published:
 ```
 ## How to test the software
 
-First, install [nose](https://nose.readthedocs.org/en/latest/), and then, from the root directory of the project, run the `nosetests` command.
+Install dependencies
+- `pip install -r requirements/test.txt`
+- from the root directory of the project, run the `nosetests` command.
 
 ## Known issues
 
