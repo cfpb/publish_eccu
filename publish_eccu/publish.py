@@ -124,7 +124,7 @@ def publish(paths, invalidate_root=False, onlyPrint=False):
             contents=purgedata,
             notes='wagtail purge on publish',
             versionString=now,
-            propertyName=settings.AKAMAI_ENDPOINT,
+            propertyName=settings.AKAMAI_HOSTNAME,
             propertyType='hostheader',
             propertyNameExactMatch=True,
             statusChangeEmail=settings.AKAMAI_NOTIFY)
@@ -166,7 +166,7 @@ def main():
             filename='purge.data',
             contents=purgedata,
             versionString=now,
-            propertyName=settings.AKAMAI_ENDPOINT,
+            propertyName=settings.AKAMAI_HOSTNAME,
             propertyType='hostheader',
             propertyNameExactMatch=True,
             statusChangeEmail=settings.AKAMAI_NOTIFY)

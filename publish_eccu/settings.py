@@ -8,6 +8,7 @@ assert 'AKAMAI_NOTIFY' in os.environ, "AKAMAI_NOTIFY must be set"
 AKAMAI_USER = os.environ.get('AKAMAI_USER')
 AKAMAI_PASSWORD = os.environ.get('AKAMAI_PASSWORD')
 AKAMAI_NOTIFY = os.environ.get('AKAMAI_NOTIFY')
+AKAMAI_HOSTNAME = os.environ.get('AKAMAI_NOTIFY')
 AKAMAI_ENDPOINT = 'https://control.akamai.com/webservices/services/PublishECCU'
 
 # Downloaded from https://control.akamai.com/webservices/services/PublishECCU?wsdl
