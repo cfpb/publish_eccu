@@ -42,3 +42,7 @@ bower_components/
 # IDE #
 ########
 .idea/
+
+AUTHORS
+ChangeLog
+build/
