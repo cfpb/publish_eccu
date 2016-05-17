@@ -37,7 +37,7 @@ There are four important environment variables that must be set.
 ```bash
 export AKAMAI_USER=[akamai account name]
 export AKAMAI_PASSWORD=[akamai_password]
-export AKAMAI_NOTIFY=[email to recieve success or failure notification]
+export AKAMAI_NOTIFY_EMAIL=[email to recieve success or failure notification]
 export AKAMAI_HOST=[domain name you are acting on]
 ```
 
