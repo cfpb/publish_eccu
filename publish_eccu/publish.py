@@ -106,7 +106,7 @@ def get_akamai_client():
                   password=settings.AKAMAI_PASSWORD)
 
 
-def publish(paths, invalidate_root=False, onlyPrint=False):
+def publish(paths, invalidate_root=False, onlyPrint=False, user_email=None):
     client = get_akamai_client()
 
     if invalidate_root:
@@ -118,6 +118,7 @@ def publish(paths, invalidate_root=False, onlyPrint=False):
     purgedata = base64.b64encode(combined_eccu)
     now = str(datetime.datetime.now())
 
+    notify_email = str(user_email) if user_email else settings.AKAMAI_NOTIFY
     if not onlyPrint:
         client.service.upload(
             filename='purge.data',
@@ -127,7 +128,7 @@ def publish(paths, invalidate_root=False, onlyPrint=False):
             propertyName=settings.AKAMAI_HOST,
             propertyType='hostheader',
             propertyNameExactMatch=True,
-            statusChangeEmail=settings.AKAMAI_NOTIFY)
+            statusChangeEmail=notify_email)
     else:
         print "successfully published:"
         print "---------"
