@@ -6,10 +6,40 @@ import datetime
 import settings
 from lxml import etree
 from suds.client import Client
+from suds.transport.http import HttpAuthenticated as SudsHttpTransport
 
 # I made this up....
 MATCH_NAMESPACE = "http://akamai.com/eccuapi/match"
 etree.register_namespace('match', MATCH_NAMESPACE)
+
+
+class ProxyCognizantAuthenticatedHttpTransport(SudsHttpTransport):
+    """HttpTransport which properly obeys the ``*_proxy`` environment variables."""
+
+    def u2handlers(self):
+        """Return a list of specific handlers to add.
+
+        The urllib2 logic regarding ``build_opener(*handlers)`` is:
+
+        - It has a list of default handlers to use
+
+        - If a subclass or an instance of one of those default handlers is given
+            in ``*handlers``, it overrides the default one.
+
+        Suds uses a custom {'protocol': 'proxy'} mapping in self.proxy, and adds
+        a ProxyHandler(self.proxy) to that list of handlers.
+        This overrides the default behaviour of urllib2, which would otherwise
+        use the system configuration (environment variables on Linux, System
+        Configuration on Mac OS, ...) to determine which proxies to use for
+        the current protocol, and when not to use a proxy (no_proxy).
+
+        Thus, passing an empty list will use the default ProxyHandler which
+        behaves correctly.
+        """
+        return []
+
+    def credentials(self):
+        return (settings.AKAMAI_USER, settings.AKAMAI_PASSWORD)
 
 
 def match_tag(name):
@@ -102,8 +132,7 @@ def merge_eccu_files(paths):
 def get_akamai_client():
     return Client(url=settings.WSDL_PATH,
                   location=settings.AKAMAI_ENDPOINT,
-                  username=settings.AKAMAI_USER,
-                  password=settings.AKAMAI_PASSWORD)
+                  transport=ProxyCognizantAuthenticatedHttpTransport())
 
 
 def publish(paths, invalidate_root=False, onlyPrint=False, user_email=None):
