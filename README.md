@@ -1,5 +1,7 @@
 # ECCU Publisher
 
+This project is archived and no longer maintained.
+
 This project provides a command-line tool for publishing "ECCU" files to Akamai. ECCU is one of several mechanisms for programattically interacting with your Akamai cache. Unfortunately, there appears to be no public-facing dcoumentation of the format. You can publish one or several ECCU files at once, or pass in a list of URL paths that will be converted into the appropriate XML. This project is distributed as a Python package.
 
 Current status: 1.0. This appears to solve the problems it, but we will almost certainly learn new things as we move towards actually implementing this.
